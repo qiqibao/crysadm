@@ -420,5 +420,5 @@ def guest_invitation_delete():
 @requires_admin
 def admin_about():
     import platform
-    version = '当前版本：2016-05-27'
+    version = '当前版本：2016-06-17'
     return render_template('about.html', platform=platform, version=version)

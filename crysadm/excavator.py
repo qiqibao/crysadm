@@ -402,6 +402,39 @@ def reset_device():
 
     return redirect(url_for('excavators'))
 
+
+# UPNP开启按钮
+@app.route('/enable_upnp', methods=['POST'])
+@requires_auth
+def enable_upnp():
+    device_id = request.values.get('device_id')
+    session_id = request.values.get('session_id')
+    account_id = request.values.get('account_id')
+
+    ubus_cd(session_id, account_id, 'set_upnp', ["dcdn","set_upnp",{"enabled":True}], '&device_id=%s' % device_id)
+
+    session['device_id'] = device_id
+    session['session_id'] = session_id
+    session['account_id'] = account_id
+    session['info_message']='设备已开启UPNP'
+    return redirect(url_for('excavators'))
+
+# UPNP关闭按钮
+@app.route('/disable_upnp', methods=['POST'])
+@requires_auth
+def disable_upnp():
+    device_id = request.values.get('device_id')
+    session_id = request.values.get('session_id')
+    account_id = request.values.get('account_id')
+
+    ubus_cd(session_id, account_id, 'set_upnp', ["dcdn","set_upnp",{"enabled":False}], '&device_id=%s' % device_id)
+
+    session['device_id'] = device_id
+    session['session_id'] = session_id
+    session['account_id'] = account_id
+    session['info_message']='设备已关闭UPNP'
+    return redirect(url_for('excavators'))
+
 # 定位设备按钮
 @app.route('/noblink_device', methods=['POST'])
 @requires_auth
